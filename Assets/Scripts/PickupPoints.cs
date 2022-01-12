@@ -1,26 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
-
 public class PickupPoints : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private int _totalScore = 0;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public static Action<int> onAddScore;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Pickup")
         {
-            other.GetComponent<Pickup>().GetPickedUp();
+            int value =  other.GetComponent<Pickup>().GetPickedUp();
+            if (value != -1)
+            {
+                _totalScore += value;
+                if(onAddScore != null)
+                    onAddScore(_totalScore);
+            }
         }
     }
 }

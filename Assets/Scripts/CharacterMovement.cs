@@ -26,12 +26,4 @@ public class CharacterMovement : MonoBehaviour
     {   
         _rb.velocity = _moveDir.normalized * _moveSpeed;
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.tag == "Pickup")
-        {
-            other.GetComponent<Pickup>().GetPickedUp();
-        }
-    }
 }

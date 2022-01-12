@@ -3,9 +3,13 @@ using UnityEngine;
 public class PickupPoints : MonoBehaviour
 {
     private int _totalScore = 0;
+    public int CurrentPickups { get; private set; }
 
     public static Action<int> onAddScore;
-
+    private void Start()
+    {
+        CurrentPickups = 0;
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Pickup")
@@ -16,6 +20,7 @@ public class PickupPoints : MonoBehaviour
                 _totalScore += value;
                 if(onAddScore != null)
                     onAddScore(_totalScore);
+                ++CurrentPickups;
             }
         }
     }

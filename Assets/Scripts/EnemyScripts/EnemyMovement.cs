@@ -110,13 +110,11 @@ public class EnemyMovement : MonoBehaviour
         if (angle > 1.0f)
         {
             Vector3 lookat = Vector3.RotateTowards(transform.forward, _lookDir, _rotateSpeed * Time.deltaTime, 0.0f);
-            print(lookat);
             transform.rotation = Quaternion.LookRotation(lookat);
         }
         else
         {
             _isRotating = false;
-            print("finished");
         }
     }
 }

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public class EnemyMovement : MonoBehaviour
 {
 
@@ -18,6 +18,10 @@ public class EnemyMovement : MonoBehaviour
     private int _currentMovingPoint = 0;
     private bool _isMovingBack = false, _hasCalculatedPoint = false, _isAtPoint = false, _isRotating = true;
     RigidbodyConstraints _originalConstraints;
+
+
+    public static Action<bool> onSpottedPlayer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,11 +62,14 @@ public class EnemyMovement : MonoBehaviour
             if (_isRotating)
             {
                 _anim.SetBool("IsIdle", true);
+                _anim.SetBool("IsFighting", false);
+
                 Rotate(_movingPoints[_currentMovingPoint].position);
             }
             else
             {
                 _anim.SetBool("IsIdle", false);
+                _anim.SetBool("IsFighting", false);
 
                 _isAtPoint = false;
                 _rb.constraints = _originalConstraints;
@@ -120,8 +127,17 @@ public class EnemyMovement : MonoBehaviour
 
     public void PlayerInSight(Vector3 target)
     {
-        _moveDir = Vector3.zero;
-        transform.rotation = Quaternion.LookRotation(target - transform.position);
-        //_anim.SetBool("IsIdle", true);
+        _moveSpeed = 0;
+        _anim.SetBool("IsFighting", true);
+        _anim.SetBool("IsIdle", false);
+        _isRotating = false;
+        _isAtPoint = false;
+        Invoke("SendUIInfo", 1.0f);
+    }
+
+    private void SendUIInfo()
+    {
+        if (onSpottedPlayer != null)
+            onSpottedPlayer(true);
     }
 }

@@ -58,7 +58,7 @@ public class EnemyMovement : MonoBehaviour
             if (_isRotating)
             {
                 _anim.SetBool("IsIdle", true);
-                Rotate();
+                Rotate(_movingPoints[_currentMovingPoint].position);
             }
             else
             {
@@ -101,9 +101,9 @@ public class EnemyMovement : MonoBehaviour
 
     }
 
-    private void Rotate()
+    private void Rotate(Vector3 target)
     {
-        _lookDir = _movingPoints[_currentMovingPoint].position - transform.position;
+        _lookDir = target - transform.position;
         float dot = Vector3.Dot(transform.forward, _lookDir);
         float mag = transform.forward.magnitude * _lookDir.magnitude;
         float angle = Mathf.Acos(dot / mag) * (180 / Mathf.PI);
@@ -116,5 +116,12 @@ public class EnemyMovement : MonoBehaviour
         {
             _isRotating = false;
         }
+    }
+
+    public void PlayerInSight(Vector3 target)
+    {
+        _moveDir = Vector3.zero;
+        transform.rotation = Quaternion.LookRotation(target - transform.position);
+        //_anim.SetBool("IsIdle", true);
     }
 }

@@ -12,6 +12,7 @@ public class CharacterMovement : MonoBehaviour
 
     private Animator _anim;
 
+    public bool HasDied = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,11 +23,20 @@ public class CharacterMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _moveDir.x = Input.GetAxisRaw("Horizontal");
-        _moveDir.z = Input.GetAxisRaw("Vertical");
-        _anim.SetFloat("Horizontal", _moveDir.x);
-        _anim.SetFloat("Vertical", _moveDir.z);
-        _anim.SetFloat("Speed", _moveDir.sqrMagnitude);
+        if (!HasDied)
+        {
+            _moveDir.x = Input.GetAxisRaw("Horizontal");
+            _moveDir.z = Input.GetAxisRaw("Vertical");
+            _anim.SetFloat("Horizontal", _moveDir.x);
+            _anim.SetFloat("Vertical", _moveDir.z);
+            _anim.SetFloat("Speed", _moveDir.sqrMagnitude);
+        }
+        else
+        {
+            _anim.SetFloat("Speed", 0);
+            _anim.SetBool("IsSpotted", true);
+            _moveDir = Vector3.zero;
+        }
     }
 
     private void FixedUpdate()

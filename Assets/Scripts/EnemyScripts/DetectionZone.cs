@@ -17,6 +17,7 @@ public class DetectionZone : MonoBehaviour
     {
         if(other.tag == "Player")
         {
+            other.GetComponent<CharacterMovement>().HasDied = true;
             _zoneMat.color = Color.red;
             _particle.Play();
             _enemyMov.PlayerInSight(other.transform.position);

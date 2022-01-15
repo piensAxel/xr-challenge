@@ -10,7 +10,7 @@ public class UIChanges : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _scoreText;
     [SerializeField]
-    private TextMeshProUGUI _endText;
+    private TextMeshProUGUI _infoText;
     [SerializeField]
     private string _deathText;
     [Header("Buttons")]
@@ -20,14 +20,18 @@ public class UIChanges : MonoBehaviour
     [SerializeField]
     private Image _background;
 
+    private Fade _fadeComp;
+
     private void Start()
     {
+
         PickupPoints.onAddScore += ChangeScore;
         FinishZone.onEnterFinish += ChangeEndText;
         FinishZone.onRestart += ShowEndScreen;
         FinishZone.onExitFinish += Disable;
         EnemyMovement.onSpottedPlayer += ShowEndScreen;
         Disable();
+        StartMessage();
     }
 
     void OnDestroy()
@@ -38,10 +42,7 @@ public class UIChanges : MonoBehaviour
         FinishZone.onExitFinish -= Disable;
         EnemyMovement.onSpottedPlayer -= ShowEndScreen;
     }
-    private void Update()
-    {
-        print(_endText);
-    }
+
     private void ChangeScore(int totalScore)
     {
         _scoreText.text = "Score: " + totalScore.ToString();
@@ -50,17 +51,20 @@ public class UIChanges : MonoBehaviour
     private void ChangeEndText(string text)
     {
 
-        _endText.gameObject.SetActive(true);
-        _endText.text = text;
+        _infoText.gameObject.SetActive(true);
+        _infoText.text = text;
+        _fadeComp.HasToFade = false;
+
     }
 
     private void ShowEndScreen(bool hasDied)
     {
         if (hasDied)
         {
-            _endText.gameObject.SetActive(true);
-            _endText.text = _deathText;
-            _endText.color = Color.red;
+            _infoText.gameObject.SetActive(true);
+            _infoText.text = _deathText;
+            _infoText.color = Color.red;
+            _fadeComp.HasToFade = false;
             _background.gameObject.SetActive(true);
         }
         _restartButton.gameObject.SetActive(true);
@@ -72,12 +76,30 @@ public class UIChanges : MonoBehaviour
     }
 
 
-    private void Disable()
+    public void StartGame()
     {
-        _endText.gameObject.SetActive(false);
-        _restartButton.gameObject.SetActive(false);
-        _background.gameObject.SetActive(false);
+        SceneManager.LoadScene("Main");
     }
 
+    private void Disable()
+    {
+        if(_infoText)
+            _infoText.gameObject.SetActive(false);
+        if (_restartButton)
+            _restartButton.gameObject.SetActive(false);
+        if (_background)
+            _background.gameObject.SetActive(false);
+    }
+
+    private void StartMessage()
+    {
+        if (_infoText)
+        {
+            _fadeComp = _infoText.gameObject.GetComponent<Fade>();
+            _fadeComp.HasToFade = true;
+            _infoText.gameObject.SetActive(true);
+            _infoText.text = "FIND ALL THE STARS AND FIND YOUR WAY OUT!";
+        }
+    }
 
 }

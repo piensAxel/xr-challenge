@@ -15,13 +15,21 @@ public class DetectionZone : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
+        if (other.tag == "Player")
         {
-            other.GetComponent<CharacterMovement>().HasDied = true;
-            _zoneMat.color = Color.red;
-            _particle.Play();
-            _enemyMov.PlayerInSight(other.transform.position);
-            print("death");
+            Vector3 direction = other.transform.position - transform.parent.position;
+            RaycastHit info;
+            if (Physics.Raycast(transform.parent.position, direction, out info))
+            {
+                if (info.collider.tag == "Player")
+                {
+                    other.GetComponent<CharacterMovement>().HasDied = true;
+                    _zoneMat.color = Color.red;
+                    _particle.Play();
+                    _enemyMov.PlayerInSight(other.transform.position);
+                    print("death");
+                }
+            }
         }
     }
 }

@@ -5,9 +5,10 @@ public class FinishZone : MonoBehaviour
 {
     [SerializeField]
     private int _totalPickups = 5;
-
+    [SerializeField]
+    private string _winText;
     public static Action<string> onEnterFinish;
-    public static Action<bool> onRestart;
+    public static Action<bool, string> onRestart;
     public static Action onExitFinish;
 
 
@@ -15,14 +16,14 @@ public class FinishZone : MonoBehaviour
     {
         if(other.tag == "Player")
         {
-            int amount = other.GetComponent<PickupPoints>().CurrentPickups;
+            int amount = other.GetComponent<PickupSystem>().CurrentPickups;
             if (_totalPickups == amount)
             {
                 print("win");
                 if (onEnterFinish != null)
                     onEnterFinish("YOU WON!");
                 if (onRestart != null)
-                    onRestart(false);
+                    onRestart(false, _winText);
             }
             else
             {

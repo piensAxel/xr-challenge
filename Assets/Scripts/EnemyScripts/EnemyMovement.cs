@@ -11,7 +11,8 @@ public class EnemyMovement : MonoBehaviour
     private List<Transform> _movingPoints;
     [SerializeField]
     private Animator _anim;
-
+    [SerializeField]
+    private string _deathText;
 
     private Rigidbody _rb;
     private Vector3 _moveDir, _lookDir;
@@ -20,7 +21,7 @@ public class EnemyMovement : MonoBehaviour
     RigidbodyConstraints _originalConstraints;
 
 
-    public static Action<bool> onSpottedPlayer;
+    public static Action<bool, string> onSpottedPlayer;
 
     // Start is called before the first frame update
     void Start()
@@ -138,6 +139,6 @@ public class EnemyMovement : MonoBehaviour
     private void SendUIInfo()
     {
         if (onSpottedPlayer != null)
-            onSpottedPlayer(true);
+            onSpottedPlayer(true, _deathText);
     }
 }

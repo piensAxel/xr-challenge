@@ -15,11 +15,8 @@ public class Fade : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(_text.alpha);
-
         if (HasToFade && _text.alpha >= 0.0f)
         {            
-            print(_text.alpha);
             _text.alpha -= _visibilitySpeed * Time.deltaTime;
         }
         else if(_text.alpha <= 0.0f)

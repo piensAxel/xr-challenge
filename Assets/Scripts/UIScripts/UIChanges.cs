@@ -12,7 +12,8 @@ public class UIChanges : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _infoText;
     [SerializeField]
-    private string _deathText;
+    private TextMeshProUGUI _timerText;
+
     [Header("Buttons")]
     [SerializeField]
     private Button _restartButton;
@@ -25,22 +26,27 @@ public class UIChanges : MonoBehaviour
     private void Start()
     {
 
-        PickupPoints.onAddScore += ChangeScore;
+        PickupSystem.onAddScore += ChangeScore;
         FinishZone.onEnterFinish += ChangeEndText;
         FinishZone.onRestart += ShowEndScreen;
         FinishZone.onExitFinish += Disable;
         EnemyMovement.onSpottedPlayer += ShowEndScreen;
+        Timer.onTimeOver += ShowEndScreen;
+        Timer.updateTime += UpdateTime;
         Disable();
         StartMessage();
     }
 
     void OnDestroy()
     {
-        PickupPoints.onAddScore -= ChangeScore;
+        PickupSystem.onAddScore -= ChangeScore;
         FinishZone.onEnterFinish -= ChangeEndText;
         FinishZone.onRestart -= ShowEndScreen;
         FinishZone.onExitFinish -= Disable;
         EnemyMovement.onSpottedPlayer -= ShowEndScreen;
+        Timer.onTimeOver -= ShowEndScreen;
+        Timer.updateTime -= UpdateTime;
+
     }
 
     private void ChangeScore(int totalScore)
@@ -57,16 +63,17 @@ public class UIChanges : MonoBehaviour
 
     }
 
-    private void ShowEndScreen(bool hasDied)
+    private void ShowEndScreen(bool hasDied, string infoText)
     {
+        _infoText.gameObject.SetActive(true);
+        _infoText.text = infoText;
+        _background.gameObject.SetActive(true);
+        _fadeComp.HasToFade = false;
+        _timerText.gameObject.SetActive(false);
         if (hasDied)
-        {
-            _infoText.gameObject.SetActive(true);
-            _infoText.text = _deathText;
             _infoText.color = Color.red;
-            _fadeComp.HasToFade = false;
-            _background.gameObject.SetActive(true);
-        }
+        else
+            _infoText.color = Color.white;
         _restartButton.gameObject.SetActive(true);
     }
 
@@ -100,6 +107,11 @@ public class UIChanges : MonoBehaviour
             _infoText.gameObject.SetActive(true);
             _infoText.text = "FIND ALL THE STARS AND FIND YOUR WAY OUT!";
         }
+    }
+
+    private void UpdateTime(string time)
+    {
+        _timerText.text = time;
     }
 
 }

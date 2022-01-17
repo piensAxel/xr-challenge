@@ -8,6 +8,7 @@ public class FinishZone : MonoBehaviour
     public static Action<string> onEnterFinish;
     public static Action<bool, string> onRestart;
     public static Action onExitFinish;
+    public static Action onWin;
 
 
     private void OnTriggerEnter(Collider other)
@@ -19,10 +20,10 @@ public class FinishZone : MonoBehaviour
             if (total == amount)
             {
                 print("win");
-                if (onEnterFinish != null)
-                    onEnterFinish("YOU WON!");
                 if (onRestart != null)
                     onRestart(false, _winText);
+                if (onWin != null)
+                    onWin();
             }
             else
             {

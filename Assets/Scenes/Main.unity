@@ -3001,8 +3001,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4284780287
+  m_fontColor: {r: 1, g: 0.55819464, b: 0.39215684, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3350,7 +3350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90ec70108d90d2647b3e5255ebc05007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _totalTime: 30
+  _totalTime: 20
   _endText: YOU RAN OUT OF TIME
 --- !u!4 &796435224
 Transform:

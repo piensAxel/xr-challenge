@@ -13,7 +13,8 @@ public class UIChanges : MonoBehaviour
     private TextMeshProUGUI _infoText;
     [SerializeField]
     private TextMeshProUGUI _timerText;
-
+    [SerializeField]
+    private TextMeshProUGUI _starText;
     [Header("Buttons")]
     [SerializeField]
     private Button _restartButton;
@@ -33,6 +34,7 @@ public class UIChanges : MonoBehaviour
         EnemyMovement.onSpottedPlayer += ShowEndScreen;
         Timer.onTimeOver += ShowEndScreen;
         Timer.updateTime += UpdateTime;
+        PickupSystem.onPickup += ChangeStarText;
         Disable();
         StartMessage();
     }
@@ -46,6 +48,7 @@ public class UIChanges : MonoBehaviour
         EnemyMovement.onSpottedPlayer -= ShowEndScreen;
         Timer.onTimeOver -= ShowEndScreen;
         Timer.updateTime -= UpdateTime;
+        PickupSystem.onPickup -= ChangeStarText;
 
     }
 
@@ -61,6 +64,11 @@ public class UIChanges : MonoBehaviour
         _infoText.text = text;
         _fadeComp.HasToFade = false;
 
+    }
+
+    private void ChangeStarText(int amountCaptured, int total)
+    {
+        _starText.text = amountCaptured.ToString() + "/" + total.ToString();
     }
 
     private void ShowEndScreen(bool hasDied, string infoText)

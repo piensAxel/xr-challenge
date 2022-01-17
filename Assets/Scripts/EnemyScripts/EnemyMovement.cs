@@ -133,7 +133,7 @@ public class EnemyMovement : MonoBehaviour
         _anim.SetBool("IsIdle", false);
         _isRotating = false;
         _isAtPoint = false;
-        Invoke("SendUIInfo", 1.0f);
+        Invoke("SendUIInfo", 1.4f);
     }
 
     private void SendUIInfo()

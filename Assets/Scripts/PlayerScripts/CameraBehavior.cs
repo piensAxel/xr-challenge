@@ -5,25 +5,12 @@ using UnityEngine;
 public class CameraBehavior : MonoBehaviour
 {
     [SerializeField]
-    private float _screenXBoundary = 0, _screenZBoundary = 0;
+    private float _screenPosXBoundary = 0, _screenNegXBoundary = 0, _screenPosZBoundary = 0, _screenNegZBoundary = 0;
     [SerializeField]
     private Transform _player;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-        if (transform.position.x > _screenXBoundary)
-            transform.position = new Vector3(_screenXBoundary, transform.position.y, transform.position.z);
-    }
 
     private void FixedUpdate()
     {
-        transform.position = new Vector3(Mathf.Clamp(_player.position.x, -_screenXBoundary, _screenXBoundary), transform.position.y, Mathf.Clamp(_player.position.z, -_screenZBoundary, _screenZBoundary));
+        transform.position = new Vector3(Mathf.Clamp(_player.position.x, _screenNegXBoundary, _screenPosXBoundary), transform.position.y, Mathf.Clamp(_player.position.z, _screenNegZBoundary, _screenPosZBoundary));
     }
 }
